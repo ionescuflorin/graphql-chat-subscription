@@ -20,6 +20,11 @@ const httpLink = ApolloLink.from([
 ]);
 
 const wsLink = new WebSocketLink({uri: wsUrl, options: {
+  // This way the WebSocketLink instance will call this function just before starting a connection
+  // and get a connectionParams object with the latest accessToken value.
+  connectionParams: () => ({
+    accessToken: getAccessToken()
+  }),
   // make a ws connection only when needed
   lazy: true,
   reconnect: true
